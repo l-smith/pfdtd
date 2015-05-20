@@ -73,10 +73,10 @@
 ; Run the simulation 
 (run-until 600 
 	(at-beginning output-epsilon)
-	;(to-appended "ex_xy"
-	;	(at-every 1
-	;		(in-volume (volume (center 0 0 0)(size sx sy no-size))
-	;			output-efield-x)))
+	(to-appended "ex_xy"
+		(at-every 1
+			(in-volume (volume (center 0 0 0)(size sx sy no-size))
+				output-efield-x)))
 	(to-appended "ex_yz"
 		(at-every 1
 			(in-volume (volume (center 0 0 0)(size no-size sy sz))
