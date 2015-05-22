@@ -10,14 +10,14 @@
 ;            MEEP FDTD field solver
 ;
 ;
-; Comments: 
+; Comments: CW source
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;; Setup variables ;;;;;;;;;;;
+;;;;;;;; User-defined variables ;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-; Computational cell dimensions
+; Computational cell parameters
 (define-param sx 100)
 (define-param sy 1000)
 (define-param sz 200)
@@ -38,7 +38,9 @@
 (define-param y_source (- y_pml_space (- dpml (* 0.5 sy))))
 (define-param z_source (* T_cps 0.5))
 
+; CPS metallization x-offset
 (define-param x_cps_offset (* 0.5 (+ S_cps W_cps)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;; Setup the simulation ;;;;;;;;;
