@@ -2,7 +2,7 @@
 ; dielectric substrate
 ;
 ; By: Levi Smith
-; Date: May 19, 2015
+; Date: May 22, 2015
 ;
 ; File type: *.ctl used as an input file for the
 ;            MEEP FDTD field solver
@@ -17,9 +17,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; Computational cell dimensions
-(define-param sx 70)
-(define-param sy 600)
-(define-param sz 200)
+(define-param sx 300)
+(define-param sy 1000)
+(define-param sz 300)
 (define-param dpml 10)
 (define-param cell_resolution 1)
 
@@ -71,13 +71,13 @@
 		(size S_cps 0 0))))
 
 ; Run the simulation 
-(run-until 600 
+(run-until 1000 
 	(at-beginning output-epsilon)
-	;(to-appended "ex_xy"
-	;	(at-every 1
-	;		(in-volume (volume (center 0 0 0)(size sx sy no-size))
-	;			output-efield-x)))
+	(to-appended "ex_xy"
+		(at-every 10 
+			(in-volume (volume (center 0 0 0)(size sx sy no-size))
+				output-efield-x)))
 	(to-appended "ex_yz"
-		(at-every 3 
+		(at-every 10 
 			(in-volume (volume (center 0 0 0)(size no-size sy sz))
 				output-efield-x))))
