@@ -18,10 +18,10 @@
 
 ; Computational cell dimensions
 (define-param sx 70)
-(define-param sy 100)
-(define-param sz 60)
+(define-param sy 600)
+(define-param sz 200)
 (define-param dpml 10)
-(define-param cell_resolution 4)
+(define-param cell_resolution 1)
 
 ; CPS waveguide parameters 
 (define-param S_cps 5)
@@ -78,6 +78,6 @@
 	;		(in-volume (volume (center 0 0 0)(size sx sy no-size))
 	;			output-efield-x)))
 	(to-appended "ex_yz"
-		(at-every 1
+		(at-every 3 
 			(in-volume (volume (center 0 0 0)(size no-size sy sz))
 				output-efield-x))))
