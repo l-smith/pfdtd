@@ -4,12 +4,13 @@
 ; By: Levi Smith
 ; Date: May 22, 2015
 ;
+; Language: Scheme
+;
 ; File type: *.ctl used as an input file for the
 ;            MEEP FDTD field solver
 ;
+;
 ; Comments: 
-;
-;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -17,16 +18,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; Computational cell dimensions
-(define-param sx 300)
+(define-param sx 100)
 (define-param sy 1000)
-(define-param sz 300)
-(define-param dpml 10)
+(define-param sz 200)
+(define-param dpml 30)
 (define-param cell_resolution 1)
 
 ; CPS waveguide parameters 
 (define-param S_cps 5)
 (define-param W_cps 5)
-(define-param T_cps 0.5)
+(define-param T_cps 2)
 
 ; Substate parameters
 (define-param eps 12.9)
