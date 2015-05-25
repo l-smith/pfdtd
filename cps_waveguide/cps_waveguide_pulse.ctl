@@ -78,7 +78,7 @@
 		(size S_cps 0 0))))
 
 ; Run the simulation 
-(run-until 4000 
+(run-until 6000 
 	(at-beginning output-epsilon)
 	(to-appended "ex_xy"
 		(at-every 40 
