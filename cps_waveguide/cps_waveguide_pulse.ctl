@@ -2,7 +2,7 @@
 ; dielectric substrate
 ;
 ; By: Levi Smith
-; Date: May 22, 2015
+; Date: May 25, 2015
 ;
 ; Language: Scheme
 ;
@@ -18,7 +18,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; Computational cell parameters
-(define-param sx 100)
+(define-param sx 200)
 (define-param sy 1000)
 (define-param sz 200)
 (define-param dpml 30)
@@ -29,17 +29,21 @@
 (define-param W_cps 5)
 (define-param T_cps 2)
 
+; CPS metallization x-offset
+(define-param x_cps_offset (* 0.5 (+ S_cps W_cps)))
+
 ; Substate parameters
 (define-param eps 12.9)
 (define-param T_sub (* 0.5 sz))
+
+; Set source parameters
+(define-param fcen (/ 1 300))
+(define-param df (/ 1 600))
 
 ; Set the source position
 (define-param y_pml_space 5)
 (define-param y_source (- y_pml_space (- dpml (* 0.5 sy))))
 (define-param z_source (* T_cps 0.5))
-
-; CPS metallization x-offset
-(define-param x_cps_offset (* 0.5 (+ S_cps W_cps)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -67,20 +71,20 @@
 ; Setup the source
 (set! sources (list 
 	(make source
-		(src (make continuous-src
-			(wavelength 300)(width 300)))
+		(src (make gaussian-src
+			(frequency fcen)(fwidth df)))
 		(component Ex)
 		(center 0 0 z_source)
 		(size S_cps 0 0))))
 
 ; Run the simulation 
-(run-until 1000 
+(run-until 4000 
 	(at-beginning output-epsilon)
 	(to-appended "ex_xy"
-		(at-every 10 
+		(at-every 40 
 			(in-volume (volume (center 0 0 0)(size sx sy no-size))
 				output-efield-x)))
 	(to-appended "ex_yz"
-		(at-every 10 
+		(at-every 40 
 			(in-volume (volume (center 0 0 0)(size no-size sy sz))
 				output-efield-x))))
