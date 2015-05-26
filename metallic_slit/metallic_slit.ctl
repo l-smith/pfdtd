@@ -27,11 +27,17 @@
 ;     v     |        |
 ;  ----------        ----------
 ;
-
+;
+; Note: W_ms extends into into the PML region
+;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;; User-defined variables ;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+; Conditional Statements
+(define-param edge-excite? false)
 
 ; Computational cell parameters
 (define-param sx 500)
@@ -41,7 +47,7 @@
 (define-param cell_res 0.25)
 
 ; Define metallic slit parameters
-(define-param S_ms 40)
+(define-param S_ms 50)
 (define-param W_ms (* (+ S_ms sx) 0.5))
 (define-param T_ms 400)
 
@@ -87,11 +93,15 @@
 		(size S_ms 0 0))))
 
 ; Run the simulation
-(run-until 8000 
+(run-until 7000 
 	(at-beginning output-epsilon)
 	(to-appended "ex_xy"
 		(at-every 50 
 			(in-volume (volume (center 0 0 0)(size sx sy 0))
+				output-efield-x)))
+	(to-appended "ex_xy_top"
+		(at-every 50 
+			(in-volume (volume (center 0 0 z_source)(size sx sy 0))
 				output-efield-x)))
 	(to-appended "ex_yz"
 		(at-every 50 
