@@ -2,15 +2,15 @@
 
 
 (define-param sx 300)
-(define-param sy 1000)
-(define-param sz 300)
+(define-param sy 2000)
+(define-param sz 1000)
 (define-param dpml 20)
-(define-param cell_res 1)
+(define-param cell_res 0.25)
 
 ; Define metallic slit parameters
 (define-param S_ms 40)
 (define-param W_ms (* (+ S_ms sx) 0.5))
-(define-param T_ms 40)
+(define-param T_ms 400)
 
 ; Define metallic slit x-offset
 (define-param x_ms_offset (* (+ S_ms W_ms) 0.5))
@@ -53,14 +53,14 @@
 		(size S_ms 0 0))))
 
 ; Run the simulation
-(run-until 6000 
+(run-until 8000 
 	(at-beginning output-epsilon)
 	(to-appended "ex_xy"
-		(at-every 20 
+		(at-every 50 
 			(in-volume (volume (center 0 0 0)(size sx sy no-size))
 				output-efield-x)))
 	(to-appended "ex_yz"
-		(at-every 20 
+		(at-every 50 
 			(in-volume (volume (center 0 0 0)(size no-size sy sz))
 				output-efield-x))))
 
