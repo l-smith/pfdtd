@@ -1,23 +1,23 @@
 ; Metallic Slit File
 
 
-(define-param sx 200)
+(define-param sx 300)
 (define-param sy 1000)
-(define-param sz 400)
-(define-param dpml 30)
+(define-param sz 300)
+(define-param dpml 20)
 (define-param cell_res 1)
 
 ; Define metallic slit parameters
-(define-param S_ms 30)
-(define-param W_ms (/ (+ S_ms sx) 2))
+(define-param S_ms 40)
+(define-param W_ms (* (+ S_ms sx) 0.5))
 (define-param T_ms 40)
 
 ; Define metallic slit x-offset
-(define-param x_ms_offset (/ (+ S_ms W_ms) 2))
+(define-param x_ms_offset (* (+ S_ms W_ms) 0.5))
 
 ; Set source parameters
 (define-param fcen (/ 1 300))
-(define-param df (/ 1 600))
+(define-param df (/ 1 900))
 
 ; Set source position
 (define-param y_source 0)
@@ -36,14 +36,15 @@
 		(material perfect-electric-conductor))
 	(make block (center (* -1 x_ms_offset) 0 0)(size W_ms infinity T_ms)
 		(material perfect-electric-conductor))))
+
 ; Setup PML layers
-(set! pml-layers (list make pml (thickness dpml)))
+(set! pml-layers (list (make pml (thickness dpml))))
 
 ; Setup the cell resolution
 (set! resolution cell_res)
 
 ; Setup the source
-(set! sources (list
+(set! sources (list 
 	(make source
 		(src (make gaussian-src
 			(frequency fcen)(fwidth df)))
@@ -55,11 +56,11 @@
 (run-until 6000 
 	(at-beginning output-epsilon)
 	(to-appended "ex_xy"
-		(at-every 40 
+		(at-every 20 
 			(in-volume (volume (center 0 0 0)(size sx sy no-size))
 				output-efield-x)))
 	(to-appended "ex_yz"
-		(at-every 40 
+		(at-every 20 
 			(in-volume (volume (center 0 0 0)(size no-size sy sz))
 				output-efield-x))))
 
