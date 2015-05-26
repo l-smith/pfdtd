@@ -1,10 +1,43 @@
-; Metallic Slit File
+; Metallic Slit Waveguide
+;
+; Simulation for a metallic slit (ms) waveguide
+;
+; By: Levi Smith
+; Date: May 26, 2015
+;
+; Language: Scheme
+;
+; File type: *.ctl used as an input file for the
+;            MEEP FDTD field solver
+;
+;
+; Comments: Gaussian source
 
 
-(define-param sx 300)
-(define-param sy 2000)
-(define-param sz 1000)
-(define-param dpml 20)
+;;;;;; Geometry ;;;;;;;
+;
+;
+;  |<-W_ms->|
+;  |        | 
+;  ----------        ----------
+;     ^     |        |
+;     |     |        |
+;    T_ms   |<-S_ms->|
+;     |     |        |
+;     v     |        |
+;  ----------        ----------
+;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;; User-defined variables ;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Computational cell parameters
+(define-param sx 500)
+(define-param sy 3000)
+(define-param sz 1200)
+(define-param dpml 100)
 (define-param cell_res 0.25)
 
 ; Define metallic slit parameters
@@ -17,11 +50,12 @@
 
 ; Set source parameters
 (define-param fcen (/ 1 300))
-(define-param df (/ 1 900))
+(define-param df (/ 1 300))
 
 ; Set source position
-(define-param y_source 0)
-(define-param z_source 0)
+(define-param y_pml_gap 200)
+(define-param y_source (+ dpml y_pml_gap (* -0.5 sy)))
+(define-param z_source (* 0.5 T_ms))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;; Setup the simulation ;;;;;;;;;
@@ -57,10 +91,10 @@
 	(at-beginning output-epsilon)
 	(to-appended "ex_xy"
 		(at-every 50 
-			(in-volume (volume (center 0 0 0)(size sx sy no-size))
+			(in-volume (volume (center 0 0 0)(size sx sy 0))
 				output-efield-x)))
 	(to-appended "ex_yz"
 		(at-every 50 
-			(in-volume (volume (center 0 0 0)(size no-size sy sz))
+			(in-volume (volume (center 0 0 0)(size 0 sy sz))
 				output-efield-x))))
 
