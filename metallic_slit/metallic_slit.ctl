@@ -62,8 +62,8 @@
 (define-param y_pml_gap 200)
 (define-param z_source (* 0.5 T_ms))
 (if edge-excite?
-	(define-param y_source (+ dpml y_pml_gap (* -0.5 sy)))
-	(define-param y_source 0))
+	(define-param y_source 0)
+	(define-param y_source (+ dpml y_pml_gap (* -0.5 sy))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -95,7 +95,7 @@
 (set! resolution cell_res)
 
 ; Setup the source
-(set! sources 
+(set! sources
 	(list 
 		(make source
 			(src (make gaussian-src
