@@ -41,7 +41,7 @@
 
 ; Computational cell parameters
 (define-param sx 500)
-(define-param sy 3000)
+(define-param sy 3500)
 (define-param sz 1200)
 (define-param dpml 100)
 (define-param cell_res 0.25)
@@ -77,9 +77,9 @@
 (set! geometry 
 	(if edge-excite?
 		(list
-			(make block (center x_ms_offset (* 0.5 sy) 0)(size W_ms (* 0.5 sy) T_ms)
+			(make block (center x_ms_offset (* 0.25 sy) 0)(size W_ms (* 0.5 sy) T_ms)
 				(material perfect-electric-conductor))
-			(make block (center (* -1 x_ms_offset) (* 0.5 sy) 0)(size W_ms (* 0.5 sy) T_ms)
+			(make block (center (* -1 x_ms_offset) (* 0.25 sy) 0)(size W_ms (* 0.5 sy) T_ms)
 				(material perfect-electric-conductor)))
 		(list
 			(make block (center x_ms_offset 0 0)(size W_ms infinity T_ms)
@@ -101,8 +101,8 @@
 			(src (make gaussian-src
 				(frequency fcen)(fwidth df)))
 			(component Ex)
-			(center 0 y_source z_source))
-			(size S_ms 0 0)))
+			(center 0 y_source z_source)
+			(size S_ms 0 0))))
 
 ; Run the simulation
 (run-until 7000 
