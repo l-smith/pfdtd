@@ -37,7 +37,7 @@
 
 
 ; Conditional Statements
-(define-param edge-excite? true)
+(define-param edge-excite? false)
 
 ; Computational cell parameters
 (define-param sx 500)
