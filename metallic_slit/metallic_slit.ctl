@@ -3,7 +3,7 @@
 ; Simulation for a metallic slit (ms) waveguide
 ;
 ; By: Levi Smith
-; Date: May 26, 2015
+; Date: May 28, 2015
 ;
 ; Language: Scheme
 ;
@@ -38,11 +38,12 @@
 
 ; Conditional Statements
 (define-param edge-excite? true)
+(define-param substrate? true)
 
 ; Computational cell parameters
-(define-param sx 500)
+(define-param sx 700)
 (define-param sy 3500)
-(define-param sz 1200)
+(define-param sz 1500)
 (define-param dpml 100)
 (define-param cell_res 0.25)
 
@@ -53,6 +54,10 @@
 
 ; Define metallic slit x-offset
 (define-param x_ms_offset (* (+ S_ms W_ms) 0.5))
+(define-param eps 12.9)
+
+; Substrate parameters
+(define-param T_sub (* 0.5 sz)) 
 
 ; Set source parameters
 (define-param fcen (/ 1 300))
@@ -74,18 +79,34 @@
 (set! geometry-lattice (make lattice (size sx sy sz)))
 
 ; Setup the metallic slit geometry
-(set! geometry 
-	(if edge-excite?
-		(list
-			(make block (center x_ms_offset (* 0.25 sy) 0)(size W_ms (* 0.5 sy) T_ms)
-				(material perfect-electric-conductor))
-			(make block (center (* -1 x_ms_offset) (* 0.25 sy) 0)(size W_ms (* 0.5 sy) T_ms)
-				(material perfect-electric-conductor)))
-		(list
-			(make block (center x_ms_offset 0 0)(size W_ms infinity T_ms)
-				(material perfect-electric-conductor))
-			(make block (center (* -1 x_ms_offset) 0 0)(size W_ms infinity T_ms)
-				(material perfect-electric-conductor)))))
+(set! geometry
+	(if (not substrate?) 
+		(if edge-excite?
+			(list
+				(make block (center x_ms_offset (* 0.25 sy) 0)(size W_ms (* 0.5 sy) T_ms)
+					(material perfect-electric-conductor))
+				(make block (center (* -1 x_ms_offset) (* 0.25 sy) 0)(size W_ms (* 0.5 sy) T_ms)
+					(material perfect-electric-conductor)))
+			(list
+				(make block (center x_ms_offset 0 0)(size W_ms infinity T_ms)
+					(material perfect-electric-conductor))
+				(make block (center (* -1 x_ms_offset) 0 0)(size W_ms infinity T_ms)
+					(material perfect-electric-conductor))))
+		(if edge-excite?
+			(list
+				(make block (center x_ms_offset (* 0.25 sy) (* 0.5 T_ms))(size W_ms (* 0.5 sy) T_ms)
+					(material perfect-electric-conductor))
+				(make block (center (* -1 x_ms_offset) (* 0.25 sy) (* 0.5 T_ms))(size W_ms (* 0.5 sy) T_ms)
+					(material perfect-electric-conductor))
+				(make block (center 0 (* -0.25 sy) (* 0.5 T_sub))(size infinity (* 0.5 sy) T_sub)
+					(material (make dielectric (epsilon eps)))))
+			(list
+				(make block (center x_ms_offset 0 (* 0.5 T_ms))(size W_ms infinity T_ms)
+					(material perfect-electric-conductor))
+				(make block (center (* -1 x_ms_offset) 0 (* 0.5 T_ms))(size W_ms infinity T_ms)
+					(material perfect-electric-conductor))
+				(make block (center 0 (* -0.25 sy) (* 0.5 T_sub))(size infinity (* 0.5 sy) T_sub)
+					(material (make dielectric (epsilon eps))))))))
 
 
 ; Setup PML layers
