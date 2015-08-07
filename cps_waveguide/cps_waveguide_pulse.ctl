@@ -42,7 +42,7 @@
 
 ; Set the source position
 (define-param y_pml_space 5)
-(define-param y_source (- y_pml_space (- dpml (* 0.5 sy))))
+(define-param y_source (+ y_pml_space (+ dpml (* -0.5 sy))))
 (define-param z_source (* T_cps 0.5))
 
 
@@ -74,7 +74,7 @@
 		(src (make gaussian-src
 			(frequency fcen)(fwidth df)))
 		(component Ex)
-		(center 0 0 z_source)
+		(center 0 y_source z_source)
 		(size S_cps 0 0))))
 
 ; Run the simulation 
@@ -82,9 +82,9 @@
 	(at-beginning output-epsilon)
 	(to-appended "ex_xy"
 		(at-every 40 
-			(in-volume (volume (center 0 0 0)(size sx sy no-size))
+			(in-volume (volume (center 0 0 0)(size sx sy 0))
 				output-efield-x)))
 	(to-appended "ex_yz"
 		(at-every 40 
-			(in-volume (volume (center 0 0 0)(size no-size sy sz))
+			(in-volume (volume (center 0 0 0)(size 0 sy sz))
 				output-efield-x))))
